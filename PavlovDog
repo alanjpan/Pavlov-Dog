@@ -1,0 +1,93 @@
+"""
+Created on Sun Oct 14 18:03:30 2018
+
+@author: Alan Jerry Pan, CPA, CSc
+@affiliation: Shanghai Jiaotong University
+
+Artificial intelligence with intelligence-like "learning" when run.
+
+Suggested citation as computer software for reference:
+Pan, Alan J. (2018). Pavlov Dog [Computer software]. Github repository <https://github.com/alanjpan/Pavlov-Dog>
+
+Note this software's license is GNU GPLv3.
+"""
+
+import time
+import random
+secure_random = random.SystemRandom()
+
+DogAI = ['pant', 'bark', 'go2vet']
+learnA = [0, 0, 0]
+learnB = [0, 0, 0]
+learnC = [0, 0, 0]
+
+DOpant = 2
+DObark = 5
+DOvet = 10
+
+health = True
+consecutivevet = 0
+
+def pant(stimulus):
+    global consecutivevet
+    
+    if stimulus[0] > DOpant:
+        print('Dog: pant :)')
+        stimulus[0] += 1
+    else:
+        print('Dog: ?')
+        stimulus[0] += 1
+    consecutivevet = 0
+
+    
+def bark(stimulus):
+    global consecutivevet
+    
+    if stimulus[1] > DObark:
+        print('Dog: bark :)')
+        stimulus[1] += 1
+    else:
+        print('Dog: ?')
+        stimulus[1] += 1
+    consecutivevet = 0
+
+    
+def go2vet(stimulus):
+    global consecutivevet
+    global health
+    
+    if stimulus[2] > DOvet:
+        print('Dog: nod')
+        time.sleep(1)
+        print("Vet: ...")
+        time.sleep(1)
+        stimulus[2] += 1
+        consecutivevet += 1
+
+    else:
+        print('Dog: whimper (the dog refuses to go)')
+        stimulus[2] += 1
+
+
+    if consecutivevet >= 3:
+        health = False
+        print('Your dog is no longer healthy.')
+        time.sleep(1)
+        print('If you visit a vet that many times,')
+        time.sleep(1)
+        print('Maybe there is something wrong with the vet.')
+    
+
+while health:
+    dogdo = secure_random.choice(DogAI)
+    print("\nDog: " + dogdo)
+
+    stimulus = input("What do you want to use as reinforcement stimulus? (A / B / C)").upper()
+    print('\n')
+
+    if stimulus == 'A':
+        exec(compile(dogdo + '(learnA)', '', 'exec'))
+    elif stimulus == 'B':
+        exec(compile(dogdo + '(learnB)', '', 'exec'))
+    elif stimulus == 'C':
+        exec(compile(dogdo + '(learnC)', '', 'exec'))
